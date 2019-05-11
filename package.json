@@ -1,0 +1,23 @@
+{
+  "name": "storybook_tuts",
+  "version": "1.0.0",
+  "description": "All the trials and error for mastering that tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HaQadosch/StoryBook_Tuts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HaQadosch/StoryBook_Tuts/issues"
+  },
+  "homepage": "https://github.com/HaQadosch/StoryBook_Tuts#readme",
+  "dependencies": {
+    "create-react-app": "^3.0.1"
+  }
+}
