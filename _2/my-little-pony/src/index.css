@@ -857,16 +857,29 @@ a:focus {
   transition: all 200ms ease-in;
   padding-right: 20px;
 }
-.list-item .actions a {
+
+button {
+  background: white;
+  transition: all 200ms ease-in;
+  color: #5db9ff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+.list-item .actions button {
   display: inline-block;
   vertical-align: top;
   text-align: center;
   color: #eee;
 }
-.list-item .actions a:hover {
+.list-item .actions button:hover {
   color: #2cc5d2;
 }
-.list-item .actions a:active {
+.list-item .actions button:active {
   color: #555;
 }
 .list-item .actions [class^='icon-'] {
@@ -875,10 +888,10 @@ a:focus {
   line-height: 3rem;
   text-align: center;
 }
-.list-item.TASK_PINNED .icon-star {
+.list-item.PINNED .icon-star {
   color: #2cc5d2;
 }
-.list-item.TASK_ARCHIVED input[type='text'] {
+.list-item.ARCHIVED input[type='text'] {
   color: #aaa;
 }
 .list-item:hover {

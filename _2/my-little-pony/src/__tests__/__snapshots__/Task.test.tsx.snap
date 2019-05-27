@@ -3,15 +3,41 @@
 exports[`Task does its thiny 1`] = `
 <DocumentFragment>
   <div
-    class="list-item"
+    class="list-item 0"
   >
-    <input
-      aria-label="testTitle"
-      id="testId"
-      name="testTitle"
-      type="text"
-      value="testTitle"
-    />
+    <label
+      class="checkbox"
+    >
+      <input
+        disabled=""
+        name="checked"
+        type="checkbox"
+      />
+      <span
+        class="checkbox-custom"
+      />
+    </label>
+    <div
+      class="title"
+    >
+      <input
+        aria-label="testTitle"
+        name="testTitle"
+        placeholder="input title"
+        readonly=""
+        type="text"
+        value="testTitle"
+      />
+    </div>
+    <div
+      class="actions"
+    >
+      <button>
+        <span
+          class="icon-star"
+        />
+      </button>
+    </div>
   </div>
 </DocumentFragment>
 `;

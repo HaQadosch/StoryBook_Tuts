@@ -1,10 +1,19 @@
 import React from 'react';
 
 export enum TaskState {
-  INBOX,
-  PINNED,
-  ARCHIVED,
+  INBOX = 'INBOX',
+  PINNED = 'PINNED',
+  ARCHIVED = 'ARCHIVED',
 }
+
+// const classFromStaskState: (state: TaskState) => string = state => {
+//   const states = {
+//     INBOX: 'inbox',
+//     PINNED: 'pinned',
+//     ARCHIVED: 'archived'
+//   }
+//   return states[state]
+// }
 
 export type TTask = {
   id: string;
@@ -15,14 +24,29 @@ export type TTask = {
 
 interface ITask {
   task: TTask;
-  onArchive?: React.ChangeEventHandler<HTMLSelectElement>;
-  onPin?: React.ChangeEventHandler<HTMLSelectElement>;
+  onArchive(id: string): void;
+  onPin(id: string): void;
 }
 
-export const Task: React.FC<ITask> = ({ task: { id, title } }) => {
+export const Task: React.FC<ITask> = ({ task: { id, title, state }, onArchive, onPin }) => {
   return (
-    <div className='list-item'>
-      <input type='text' value={title} name={title} id={id} aria-label={title} />
+    <div className={`list-item ${state}`}>
+      <label className='checkbox'>
+        <input type='checkbox' name='checked' defaultChecked={state === TaskState.ARCHIVED} disabled={true} />
+        <span className='checkbox-custom' onClick={() => onArchive(id)} />
+      </label>
+
+      <div className='title'>
+        <input type='text' value={title} name={title} readOnly={true} placeholder='input title' aria-label={title} />
+      </div>
+
+      <div className='actions' onClick={evt => evt.stopPropagation()}>
+        {state !== TaskState.ARCHIVED ? (
+          <button onClick={() => onPin(id)}>
+            <span className='icon-star' />
+          </button>
+        ) : null}
+      </div>
     </div>
   );
 };

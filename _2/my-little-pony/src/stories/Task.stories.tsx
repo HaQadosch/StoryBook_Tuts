@@ -30,6 +30,7 @@ const pinnedTask = () => <Task task={setState(TaskState.PINNED)} {...actions} />
 const archivedTask = () => <Task task={setState(TaskState.ARCHIVED)} {...actions} />;
 
 storiesOf('Task', module)
+  .addParameters({ viewport: { defaultViewport: 'iphonex' } })
   .add('inbox -- default', inboxTask)
   .add('pinned', pinnedTask)
   .add('archived', archivedTask);
