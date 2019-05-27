@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { render, cleanup, getByTestId } from 'react-testing-library';
+import 'jest-dom';
 
 import { TaskList } from '../components/TaskList';
 import { TTask, TaskState } from '../components/Task';
@@ -35,23 +37,41 @@ const taskPinnedList = () => <TaskList loading={false} tasks={withPinnedTask} {.
 const loadingList = () => <TaskList loading={false} tasks={[]} {...actions} />;
 const emptyList = () => <TaskList loading={false} tasks={[]} {...actions} />;
 
-test('renders defaultList without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(defaultList(), div);
-  ReactDOM.unmountComponentAtNode(div);
+afterEach(cleanup);
+
+describe('All the tasks are rendered without crashing', () => {
+  test('defaultList renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(defaultList(), div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
+  test('list with 1 pinned task renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(taskPinnedList(), div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
+  test('loading list renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(loadingList(), div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
+
+  test('an empty list renders without crashing', () => {
+    const div = document.createElement('div');
+    ReactDOM.render(emptyList(), div);
+    ReactDOM.unmountComponentAtNode(div);
+  });
 });
-test('renders list with 1 pinned task without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(taskPinnedList(), div);
-  ReactDOM.unmountComponentAtNode(div);
-});
-test('renders loading list without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(loadingList(), div);
-  ReactDOM.unmountComponentAtNode(div);
-});
-test('renders an empty list without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(emptyList(), div);
-  ReactDOM.unmountComponentAtNode(div);
+
+describe('The List behaves as expected', () => {
+  test('The pinned tasks are rendered at the top of the list', () => {
+    const { getAllByTestId } = render(<TaskList loading={false} tasks={withPinnedTask} {...actions} />);
+    const listItems = getAllByTestId(/list-item\s/);
+    const pinnedItems = getAllByTestId(/PINNED/);
+    expect(listItems).not.toBeEmpty;
+    expect(pinnedItems).not.toBeEmpty;
+    if (0 < listItems.length && 0 < pinnedItems.length) {
+      expect(listItems[0]).toBe(pinnedItems[0]);
+    }
+  });
 });

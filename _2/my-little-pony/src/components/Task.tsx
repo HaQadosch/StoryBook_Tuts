@@ -22,7 +22,7 @@ interface ITask {
 
 export const Task: React.FC<ITask> = ({ task: { id, title, state }, onArchive, onPin }) => {
   return (
-    <div className={`list-item ${state}`}>
+    <div className={`list-item ${state}`} data-testid={`list-item ${state}`}>
       <label className='checkbox'>
         <input type='checkbox' name='checked' defaultChecked={state === TaskState.ARCHIVED} disabled={true} />
         <span className='checkbox-custom' onClick={() => onArchive(id)} />

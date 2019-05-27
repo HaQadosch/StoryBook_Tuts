@@ -54,7 +54,7 @@ export const TaskList: React.FC<ITaksList> = ({ loading, tasks, onArchive, onPin
   const tasksInOrder = [...pinned, ...notPinned];
 
   return (
-    <div className='list-items'>
+    <div className='list-items' data-testid='list-items'>
       {tasksInOrder.map(task => (
         <Task key={task.id} task={task} {...events} />
       ))}
