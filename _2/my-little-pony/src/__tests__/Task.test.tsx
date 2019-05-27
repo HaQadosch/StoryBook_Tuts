@@ -11,6 +11,11 @@ const baseTask: TTask = {
   state: TaskState.INBOX,
 };
 
+const actions = {
+  onPin: () => {},
+  onArchive: () => {},
+};
+
 // Insert the creation date as updatedAt.
 const createTask = (base: TTask): TTask =>
   produce(base, draft => {
@@ -20,13 +25,13 @@ const createTask = (base: TTask): TTask =>
 it('renders without crashing', () => {
   const task = createTask(baseTask);
   const div = document.createElement('div');
-  ReactDOM.render(<Task task={task} />, div);
+  ReactDOM.render(<Task task={task} {...actions} />, div);
   ReactDOM.unmountComponentAtNode(div);
 });
 
 test('Task does its thiny', () => {
   const task = createTask(baseTask);
-  const { debug, asFragment } = render(<Task task={task} />);
+  const { debug, asFragment } = render(<Task task={task} {...actions} />);
   expect(asFragment()).toMatchSnapshot();
   debug(asFragment());
 });

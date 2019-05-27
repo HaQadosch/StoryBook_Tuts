@@ -1,24 +1,16 @@
 import React from 'react';
 
+// TaskState.INBOX is used as default state as well.
 export enum TaskState {
   INBOX = 'INBOX',
   PINNED = 'PINNED',
   ARCHIVED = 'ARCHIVED',
 }
 
-// const classFromStaskState: (state: TaskState) => string = state => {
-//   const states = {
-//     INBOX: 'inbox',
-//     PINNED: 'pinned',
-//     ARCHIVED: 'archived'
-//   }
-//   return states[state]
-// }
-
 export type TTask = {
   id: string;
-  title?: string;
-  state?: TaskState;
+  title: string;
+  state: TaskState;
   updatedAt?: Date;
 };
 

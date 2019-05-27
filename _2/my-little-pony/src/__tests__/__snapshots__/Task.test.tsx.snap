@@ -3,7 +3,7 @@
 exports[`Task does its thiny 1`] = `
 <DocumentFragment>
   <div
-    class="list-item 0"
+    class="list-item INBOX"
   >
     <label
       class="checkbox"

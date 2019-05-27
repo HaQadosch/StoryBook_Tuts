@@ -12,6 +12,7 @@ const defaultTask: TTask = {
   id: '1',
   title: 'Test',
   updatedAt: new Date(2019, 5, 27),
+  state: TaskState.INBOX,
 };
 
 const setTaskState = (task: TTask) => (state: TaskState) =>
