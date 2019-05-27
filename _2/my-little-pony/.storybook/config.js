@@ -1,9 +1,11 @@
 import { configure, addParameters } from '@storybook/react';
+import requireContext from 'require-context.macro';
+
 import '../src/index.css';
 
 addParameters({ viewport: { defaultViewport: 'iphonex' } });
 
-const req = require.context('../src/stories', true, /\.stories\.tsx$/);
+const req = requireContext('../src/stories', true, /\.stories\.tsx$/);
 
 function loadStories() {
   require('../src/stories');

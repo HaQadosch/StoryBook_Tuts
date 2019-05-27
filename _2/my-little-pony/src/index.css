@@ -872,6 +872,7 @@ button:focus {
 
 .list-item .actions button {
   display: inline-block;
+  background: transparent;
   vertical-align: top;
   text-align: center;
   color: #eee;
