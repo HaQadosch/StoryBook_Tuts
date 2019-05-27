@@ -1,9 +1,15 @@
 import React from 'react';
 
+export enum TaskState {
+  INBOX,
+  PINNED,
+  ARCHIVED,
+}
+
 export type TTask = {
   id: string;
-  title: string;
-  state: 'INBOX' | 'PINNED' | 'ARCHIVED';
+  title?: string;
+  state?: TaskState;
   updatedAt?: Date;
 };
 
@@ -16,7 +22,7 @@ interface ITask {
 export const Task: React.FC<ITask> = ({ task: { id, title } }) => {
   return (
     <div className='list-item'>
-      <input type='text' value={title} name={title} id={id} />
+      <input type='text' value={title} name={title} id={id} aria-label={title} />
     </div>
   );
 };

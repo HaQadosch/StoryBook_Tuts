@@ -1,4 +1,11 @@
-import { configure } from '@storybook/react';
+import { configure, addParameters } from '@storybook/react';
+import '../src/index.css';
+
+addParameters({
+  viewports: {
+    defaultViewport: 'iphonex',
+  },
+});
 
 const req = require.context('../src/stories', true, /\.stories\.tsx$/);
 

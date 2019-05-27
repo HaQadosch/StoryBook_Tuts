@@ -22,10 +22,13 @@
     "trailingComma": "all"
   },
   "dependencies": {
+    "@storybook/addon-a11y": "^5.0.11",
     "@types/jest": "24.0.13",
     "@types/node": "12.0.2",
     "@types/react": "16.8.18",
     "@types/react-dom": "16.8.4",
+    "@types/storybook__addon-a11y": "^5.0.0",
+    "@types/storybook__addon-actions": "^3.4.2",
     "@types/storybook__react": "^4.0.1",
     "husky": "^2.3.0",
     "immer": "^3.1.2",
@@ -54,10 +57,12 @@
     ]
   },
   "devDependencies": {
-    "@storybook/react": "^5.0.11",
+    "@babel/core": "^7.4.5",
     "@storybook/addon-actions": "^5.0.11",
     "@storybook/addon-links": "^5.0.11",
+    "@storybook/addon-viewport": "^5.0.11",
     "@storybook/addons": "^5.0.11",
-    "@babel/core": "^7.4.5"
+    "@storybook/react": "^5.0.11",
+    "@types/storybook__addon-viewport": "^4.1.0"
   }
 }

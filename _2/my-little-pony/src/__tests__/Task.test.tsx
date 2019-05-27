@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import { render } from 'react-testing-library';
 import produce from 'immer';
 
-import { Task, TTask } from '../components/Task';
+import { Task, TTask, TaskState } from '../components/Task';
 
 const baseTask: TTask = {
   id: 'testId',
   title: 'testTitle',
-  state: 'INBOX',
+  state: TaskState.INBOX,
 };
 
 // Insert the creation date as updatedAt.

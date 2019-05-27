@@ -6,6 +6,7 @@ exports[`Task does its thiny 1`] = `
     class="list-item"
   >
     <input
+      aria-label="testTitle"
       id="testId"
       name="testTitle"
       type="text"
