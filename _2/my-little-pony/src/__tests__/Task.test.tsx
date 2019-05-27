@@ -22,16 +22,9 @@ const createTask = (base: TTask): TTask =>
     draft.updatedAt = new Date();
   });
 
-it('renders without crashing', () => {
+test('renders without crashing', () => {
   const task = createTask(baseTask);
   const div = document.createElement('div');
   ReactDOM.render(<Task task={task} {...actions} />, div);
   ReactDOM.unmountComponentAtNode(div);
-});
-
-test('Task does its thiny', () => {
-  const task = createTask(baseTask);
-  const { debug, asFragment } = render(<Task task={task} {...actions} />);
-  expect(asFragment()).toMatchSnapshot();
-  debug(asFragment());
 });
