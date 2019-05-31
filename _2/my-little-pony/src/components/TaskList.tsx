@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Task, TTask, TaskState } from './Task';
+import './TaskList.css';
 
 interface ITaskList {
   loading: boolean;
