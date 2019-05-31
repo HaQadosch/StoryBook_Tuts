@@ -1,15 +1,46 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Task, TTask, TaskState } from './Task';
 
-interface ITaksList {
+interface ITaskList {
   loading: boolean;
   tasks: TTask[];
-  onArchive(id: string): void;
-  onPin(id: string): void;
+  onArchive(task: TTask): void;
+  onPin(task: TTask): void;
 }
 
-export const TaskList: React.FC<ITaksList> = ({ loading, tasks, onArchive, onPin }) => {
-  const events = { onArchive, onPin };
+// We want the pinned tasks on top.
+type YesNoTTasks = [TTask[], TTask[]];
+type condition = (cur: TTask) => boolean;
+
+type TasksSplit = (condition: condition) => (all: TTask[]) => YesNoTTasks;
+const splitFilter: TasksSplit = condition => {
+  type TTasksYesNoReducer = (prev: YesNoTTasks, cur: TTask) => YesNoTTasks;
+  type SortTask = (condition: condition) => TTasksYesNoReducer;
+  const sortTask: SortTask = condition => ([yes, no], cur) =>
+    condition(cur) ? [[...yes, cur], no] : [yes, [...no, cur]];
+
+  return all => all.reduce(sortTask(condition), [[], []]);
+};
+
+const splitByPinned = splitFilter(({ state }) => state === TaskState.PINNED);
+const pinnedOnTop: (tasks: TTask[]) => TTask[] = tasks => {
+  const [pinned, notPinned] = splitByPinned(tasks);
+  return [...pinned, ...notPinned];
+};
+
+export const TaskList: React.FC<ITaskList> = ({ loading, tasks, onArchive: archive, onPin: pin }) => {
+  const [tasksInOrder, setTasksInOrder] = useState(pinnedOnTop(tasks));
+
+  const events = {
+    onArchive: (archivedTask: TTask) => {
+      setTasksInOrder(pinnedOnTop(tasksInOrder.map(task => (task.id === archivedTask.id ? archivedTask : task))));
+      archive(archivedTask);
+    },
+    onPin: (toggledTask: TTask) => {
+      setTasksInOrder(pinnedOnTop(tasksInOrder.map(task => (task.id === toggledTask.id ? toggledTask : task))));
+      pin(toggledTask);
+    },
+  };
 
   const loadingRow = (
     <div className='loading-item'>
@@ -45,19 +76,11 @@ export const TaskList: React.FC<ITaksList> = ({ loading, tasks, onArchive, onPin
     );
   }
 
-  // We want the pinned tasks on top.
-  const splitFilter = (all: any[]) => (condition: (test: any) => boolean) =>
-    all.reduce(([yes, no], cur) => (condition(cur) ? [[...yes, cur], no] : [yes, [...no, cur]]), [[], []]);
-
-  const [pinned, notPinned] = splitFilter(tasks)(({ state }) => state === TaskState.PINNED);
-
-  const tasksInOrder = [...pinned, ...notPinned];
-
   return (
     <div className='list-items' data-testid='list-items'>
-      {tasksInOrder.map(task => (
-        <Task key={task.id} task={task} {...events} />
-      ))}
+      {tasksInOrder.map(task =>
+        task.state !== TaskState.ARCHIVED ? <Task key={task.id} task={task} {...events} /> : null,
+      )}
     </div>
   );
 };

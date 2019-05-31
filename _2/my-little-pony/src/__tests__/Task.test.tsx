@@ -12,8 +12,12 @@ const baseTask: TTask = {
 };
 
 const actions = {
-  onPin: () => {},
-  onArchive: () => {},
+  onPin: (task: TTask) => {
+    console.log('pinned', { id: task.id });
+  },
+  onArchive: (task: TTask) => {
+    console.log('archived', { id: task.id });
+  },
 };
 
 // Insert the creation date as updatedAt.

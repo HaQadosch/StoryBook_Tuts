@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import produce from 'immer';
 
 // TaskState.INBOX is used as default state as well.
 export enum TaskState {
@@ -16,29 +17,48 @@ export type TTask = {
 
 interface ITask {
   task: TTask;
-  onArchive(id: string): void;
-  onPin(id: string): void;
+  onArchive(task: TTask): void;
+  onPin(task: TTask): void;
 }
 
-export const Task: React.FC<ITask> = ({ task: { id, title, state }, onArchive, onPin }) => {
+export const Task: React.FC<ITask> = ({ task: initTask, onArchive, onPin }) => {
+  const [{ id, title, state, updatedAt }, setTask] = useState(initTask);
+
+  const archive = () => {
+    const archivedTask = produce({ id, title, state, updatedAt }, draft => {
+      draft.state = TaskState.ARCHIVED;
+    });
+    setTask(archivedTask);
+    onArchive(archivedTask);
+  };
+
+  const togglePin = () => {
+    const pinnedTask = produce({ id, title, state, updatedAt }, draft => {
+      draft.state = draft.state === TaskState.PINNED ? TaskState.INBOX : TaskState.PINNED;
+      draft.updatedAt = new Date(Date.now());
+    });
+    setTask(pinnedTask);
+    onPin(pinnedTask);
+  };
+
   return (
-    <div className={`list-item ${state}`} data-testid={`list-item ${state}`}>
+    <article className={`list-item ${state}`} data-testid={`list-item ${state}`}>
       <label className='checkbox'>
         <input type='checkbox' name='checked' defaultChecked={state === TaskState.ARCHIVED} disabled={true} />
-        <span className='checkbox-custom' onClick={() => onArchive(id)} />
+        <span className='checkbox-custom' onClick={archive} />
       </label>
 
-      <div className='title'>
+      <section className='title'>
         <input type='text' value={title} name={title} readOnly={true} placeholder='input title' aria-label={title} />
-      </div>
+      </section>
 
-      <div className='actions' onClick={evt => evt.stopPropagation()}>
+      <section className='actions' onClick={evt => evt.stopPropagation()}>
         {state !== TaskState.ARCHIVED ? (
-          <button onClick={() => onPin(id)}>
+          <button onClick={togglePin}>
             <span className='icon-star' />
           </button>
         ) : null}
-      </div>
-    </div>
+      </section>
+    </article>
   );
 };
