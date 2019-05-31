@@ -62,16 +62,3 @@ describe('All the tasks are rendered without crashing', () => {
     ReactDOM.unmountComponentAtNode(div);
   });
 });
-
-describe('The List behaves as expected', () => {
-  test('The pinned tasks are rendered at the top of the list', () => {
-    const { getAllByTestId } = render(<TaskList loading={false} tasks={withPinnedTask} {...actions} />);
-    const listItems = getAllByTestId(/list-item\s/);
-    const pinnedItems = getAllByTestId(/PINNED/);
-    expect(listItems).not.toBeEmpty;
-    expect(pinnedItems).not.toBeEmpty;
-    if (0 < listItems.length && 0 < pinnedItems.length) {
-      expect(listItems[0]).toBe(pinnedItems[0]);
-    }
-  });
-});

@@ -8,36 +8,16 @@ interface ITaskList {
   onPin(task: TTask): void;
 }
 
-// We want the pinned tasks on top.
-type YesNoTTasks = [TTask[], TTask[]];
-type condition = (cur: TTask) => boolean;
-
-type TasksSplit = (condition: condition) => (all: TTask[]) => YesNoTTasks;
-const splitFilter: TasksSplit = condition => {
-  type TTasksYesNoReducer = (prev: YesNoTTasks, cur: TTask) => YesNoTTasks;
-  type SortTask = (condition: condition) => TTasksYesNoReducer;
-  const sortTask: SortTask = condition => ([yes, no], cur) =>
-    condition(cur) ? [[...yes, cur], no] : [yes, [...no, cur]];
-
-  return all => all.reduce(sortTask(condition), [[], []]);
-};
-
-const splitByPinned = splitFilter(({ state }) => state === TaskState.PINNED);
-const pinnedOnTop: (tasks: TTask[]) => TTask[] = tasks => {
-  const [pinned, notPinned] = splitByPinned(tasks);
-  return [...pinned, ...notPinned];
-};
-
-export const TaskList: React.FC<ITaskList> = ({ loading, tasks, onArchive: archive, onPin: pin }) => {
-  const [tasksInOrder, setTasksInOrder] = useState(pinnedOnTop(tasks));
+export const TaskList: React.FC<ITaskList> = ({ loading, tasks: origTasks, onArchive: archive, onPin: pin }) => {
+  const [tasks, setTasks] = useState(origTasks);
 
   const events = {
     onArchive: (archivedTask: TTask) => {
-      setTasksInOrder(pinnedOnTop(tasksInOrder.map(task => (task.id === archivedTask.id ? archivedTask : task))));
+      setTasks(tasks.map(task => (task.id === archivedTask.id ? archivedTask : task)));
       archive(archivedTask);
     },
     onPin: (toggledTask: TTask) => {
-      setTasksInOrder(pinnedOnTop(tasksInOrder.map(task => (task.id === toggledTask.id ? toggledTask : task))));
+      setTasks(tasks.map(task => (task.id === toggledTask.id ? toggledTask : task)));
       pin(toggledTask);
     },
   };
@@ -78,9 +58,7 @@ export const TaskList: React.FC<ITaskList> = ({ loading, tasks, onArchive: archi
 
   return (
     <div className='list-items' data-testid='list-items'>
-      {tasksInOrder.map(task =>
-        task.state !== TaskState.ARCHIVED ? <Task key={task.id} task={task} {...events} /> : null,
-      )}
+      {tasks.map(task => (task.state !== TaskState.ARCHIVED ? <Task key={task.id} task={task} {...events} /> : null))}
     </div>
   );
 };
