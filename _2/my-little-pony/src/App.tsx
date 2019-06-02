@@ -7,9 +7,11 @@ const App: React.FC = () => {
   return (
     <div className='App'>
       <ErrorBoundary>
-        <main>
-          <InboxScreen />
-        </main>
+        <React.StrictMode>
+          <main>
+            <InboxScreen />
+          </main>
+        </React.StrictMode>
       </ErrorBoundary>
     </div>
   );
