@@ -49,7 +49,15 @@ export const Task: React.FC<ITask> = ({ task: initTask, onArchive, onPin }) => {
       </label>
 
       <section className='title'>
-        <input type='text' value={title} name={title} readOnly={true} placeholder='input title' aria-label={title} />
+        <input
+          type='text'
+          value={title}
+          name={title}
+          style={{ textOverflow: 'ellipsis' }}
+          readOnly={true}
+          placeholder='input title'
+          aria-label={title}
+        />
       </section>
 
       <section className='actions' onClick={evt => evt.stopPropagation()}>
