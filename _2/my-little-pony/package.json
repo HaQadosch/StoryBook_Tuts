@@ -9,6 +9,7 @@
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
+    "static-storybook": "build-storybook -c .storybook",
     "chromatic": "CHROMATIC_APP_CODE=zaw6bxrcvd chromatic test  --do-not-start"
   },
   "husky": {
