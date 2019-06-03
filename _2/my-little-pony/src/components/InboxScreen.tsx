@@ -1,6 +1,7 @@
 import React from 'react';
 import { TaskList } from './TaskList';
 import './InboxScreen.css';
+import { defaultTasks } from '../utils/genTasks';
 
 export const InboxScreen: React.FC<{ error?: Error; errorInfo?: React.ErrorInfo }> = ({ error, errorInfo }) => {
   const errorComponent = (
@@ -18,7 +19,7 @@ export const InboxScreen: React.FC<{ error?: Error; errorInfo?: React.ErrorInfo 
           <span className='title-wrapper'>TaskBox</span>
         </h1>
       </nav>
-      <TaskList loading={false} tasks={[]} onArchive={() => {}} onPin={() => {}} />
+      <TaskList loading={false} tasks={defaultTasks} onArchive={() => {}} onPin={() => {}} />
     </>
   );
 
